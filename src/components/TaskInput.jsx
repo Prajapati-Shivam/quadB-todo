@@ -20,7 +20,7 @@ const TaskInput = () => {
   return (
     <TextField
       id="outlined-basic"
-      label="Enter a task"
+      label="Enter a todo"
       onKeyDown={handleKeyDown}
       variant="outlined"
       fullWidth

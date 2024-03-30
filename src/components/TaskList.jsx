@@ -20,24 +20,25 @@ export default function TaskList() {
     dispatch({ type: "todo/doneTodo", payload: id });
   };
   return (
-    <List
-      sx={{ width: "100%", maxWidth: 400, bgcolor: "background.paper" }}
-      component="nav"
-    >
+    <List sx={{ width: "100%", maxWidth: 400 }} component="nav">
       {todoList.length === 0 && (
         <ListItem>
-          <ListItemText primary="No tasks" />
+          <div className="text-lg font-medium">
+            Try adding some todo to get started :)
+          </div>
         </ListItem>
       )}
       {todoList.map((item) => (
         <ListItem
           key={item.id}
           className={
-            "flex items-center rounded-lg hover:bg-gray-100" +
+            "flex items-center rounded-lg group hover:bg-gray-200 hover:border-2 hover:border-gray-400 transition-colors duration-300" +
             (item.isDone ? " text-gray-400 line-through" : "")
-          } // Add this line
+          }
         >
-          <div className="flex-1 font-semibold text-lg">{item.task}</div>
+          <div className="flex-1 font-semibold text-lg group-hover:ml-2 transition-all duration-300">
+            {item.task}
+          </div>
           <ListItemIcon className="flex items-center">
             <Checkbox
               defaultChecked={item.isDone}

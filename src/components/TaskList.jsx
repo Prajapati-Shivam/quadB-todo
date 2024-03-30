@@ -3,27 +3,33 @@ import List from "@mui/material/List";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { ListItem } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
 import Checkbox from "@mui/material/Checkbox";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function TaskList() {
-  const list = [
-    { id: 1, task: "Task 1", isDone: false },
-    { id: 2, task: "Task 2", isDone: true },
-    { id: 3, task: "Task 3", isDone: false },
-    { id: 4, task: "Task 4", isDone: true },
-  ];
+  const todoList = useSelector((state) => state.todo.todos);
+  const dispatch = useDispatch();
+
+  const handleDelete = (id) => {
+    dispatch({ type: "todo/removeTodo", payload: id });
+  };
+
+  const handleDone = (id) => {
+    dispatch({ type: "todo/doneTodo", payload: id });
+  };
   return (
     <List
-      sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+      sx={{ width: "100%", maxWidth: 400, bgcolor: "background.paper" }}
       component="nav"
     >
-      {list.length === 0 && (
+      {todoList.length === 0 && (
         <ListItem>
           <ListItemText primary="No tasks" />
         </ListItem>
       )}
-      {list.map((item) => (
+      {todoList.map((item) => (
         <ListItem
           key={item.id}
           className={
@@ -31,10 +37,16 @@ export default function TaskList() {
             (item.isDone ? " text-gray-400 line-through" : "")
           } // Add this line
         >
-          <ListItemText primary={item.task} />
+          <div className="flex-1 font-semibold text-lg">{item.task}</div>
           <ListItemIcon className="flex items-center">
-            <Checkbox defaultChecked={item.isDone} />
-            <DeleteIcon />
+            <Checkbox
+              defaultChecked={item.isDone}
+              onClick={() => handleDone(item.id)}
+            />
+
+            <IconButton edge="end" onClick={() => handleDelete(item.id)}>
+              <DeleteIcon />
+            </IconButton>
           </ListItemIcon>
         </ListItem>
       ))}
